@@ -250,6 +250,7 @@ const COURSES = {
   calc1: { code: "MATH 235", name: "Calculus I", cr: 4, meta: "or MATH 231–232" },
   calc2: { code: "MATH 236", name: "Calculus II", cr: 4, meta: "offered every semester" },
   m248:  { code: "MATH 248", name: "Computers and Numerical Algorithms", cr: 4, meta: "offered every semester" },
+  m248stat: { code: "MATH 248", name: "Computers and Numerical Algorithms", cr: 4, meta: "choose it instead of MATH 309" },
   elec:  { code: "Two electives", name: "from the list below", cr: 6, meta: "3 credits each" }
 };
 const ELECTIVES = [
@@ -288,11 +289,11 @@ const MAJORS = [
     careers: ["Simulation and CAE engineer", "Systems engineer", "Operations research analyst", "Defense and aerospace engineer"],
     note: "Engineering already requires MATH 235, 236, 237, and 238, so you meet the prerequisites for every elective." },
   { id: "stat", name: "Statistics",
-    hook: "Pair statistical thinking with optimization and numerical computing.",
-    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "6–10",
+    hook: "Choose MATH 248 instead of MATH 309, and two electives finish the minor.",
+    have: ["calc1", "calc2", "m248stat"], left: ["elec"], extra: "6",
     electives: "MATH 340 Operations Research and the Modern Optimization Algorithms topic (your MATH 300 meets its prerequisite) pair well with statistics.",
     careers: ["Data scientist", "Machine learning analyst", "Operations research analyst", "Actuarial and risk analyst"],
-    note: "The catalog lets statistics majors double count the minor's required courses toward the major, so the minor can be as little as two electives beyond your degree." },
+    note: "Your major requires MATH 248 or MATH 309. Pick MATH 248: it meets that major requirement and the minor's MATH 248 requirement at the same time, since the catalog lets statistics majors double count the minor's required courses toward the major. Then add any two electives." },
   { id: "isat", name: "ISAT",
     hook: "Add serious modeling and optimization power to your systems-and-technology toolkit.",
     have: [], left: ["calc1", "calc2", "m248", "elec"], extra: "14–18",
@@ -318,11 +319,11 @@ const MAJORS = [
     careers: ["Business analytics", "Supply chain optimization", "Operations research analyst", "Consulting"],
     note: "If you choose MATH 235 instead of MATH 205 for your calculus requirement, it counts toward both your major and the minor." },
   { id: "math", name: "Mathematics",
-    hook: "Add an applied, job-ready credential to your math degree.",
-    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "6–10",
+    hook: "MATH 248 is already in your major. Two electives finish the minor.",
+    have: ["calc1", "calc2", "m248"], left: ["elec"], extra: "6",
     electives: "Every elective is open after your core. Choose by interest: optimization (MATH 340), numerical analysis (448, 449), PDEs (440), or the special topics.",
     careers: ["Operations research analyst", "Data scientist", "Modeling and simulation analyst", "Graduate school in applied math"],
-    note: "Courses used for the minor can't also count toward the extra 12 credits beyond the math major core. See the catalog for details." }
+    note: "MATH 235, 236, and 248 are part of the math major core, so they count toward the minor too. The two minor electives can't also count toward the additional 12 credits beyond the core, so plan them as extra courses." }
 ];
 
 /* ============================================================
