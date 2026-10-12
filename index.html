@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Computational Analytics Minor: Your Fastest Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..900&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     EDITING GUIDE
+     - Course facts live in the COURSES object near the bottom.
+     - Each major's details live in the MAJORS array near the bottom.
+     - Colors are the CSS variables just below.
+     ============================================================ */
+  :root {
+    --purple: #450084;
+    --purple-deep: #2A0052;
+    --purple-soft: #F1EAF8;
+    --gold: #CBB677;
+    --gold-deep: #8A7637;
+    --gold-soft: #FAF5E6;
+    --ink: #1E1A24;
+    --muted: #5E5868;
+    --line: #E3DCEB;
+    --bg: #FFFFFF;
+    --card: #FFFFFF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --purple-soft: #2B2140; --gold-soft: #2E2817; --ink: #F3EFF8; --muted: #BDB4CB;
+      --line: #3A3050; --bg: #17121F; --card: #1F1829; --gold-deep: #E0CF95;
+    }
+  }
+  :root[data-theme="dark"] {
+    --purple-soft: #2B2140; --gold-soft: #2E2817; --ink: #F3EFF8; --muted: #BDB4CB;
+    --line: #3A3050; --bg: #17121F; --card: #1F1829; --gold-deep: #E0CF95;
+  }
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Public Sans", "Segoe UI", Arial, sans-serif; font-size: 17px; line-height: 1.5;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    background: radial-gradient(120% 140% at 85% 10%, #6E3AA7 0%, var(--purple) 45%, var(--purple-deep) 100%);
+    color: #fff; padding: 40px 0 34px; position: relative; overflow: hidden;
+  }
+  header.hero svg.art { position: absolute; right: -40px; top: -20px; width: 380px; max-width: 70%; opacity: .55; pointer-events: none; }
+  .kicker { color: var(--gold); font-weight: 700; font-size: 15px; margin: 0 0 10px; }
+  h1 {
+    font-family: "Archivo", "Arial Narrow", Arial, sans-serif; font-stretch: 78%; font-weight: 850;
+    font-size: clamp(40px, 9vw, 72px); line-height: .95; margin: 0 0 14px; letter-spacing: -.01em; max-width: 15ch;
+  }
+  .lede { font-size: 19px; max-width: 34ch; margin: 0 0 18px; color: #EDE4F7; }
+  .facts { display: flex; flex-wrap: wrap; gap: 10px; }
+  .fact { background: rgba(255,255,255,.1); border: 1px solid rgba(203,182,119,.55); border-radius: 999px; padding: 6px 14px; font-size: 15px; }
+  .fact b { color: var(--gold); }
+
+  /* ---------- Major picker ---------- */
+  section { padding: 28px 0; }
+  h2 { font-family: "Archivo", Arial, sans-serif; font-stretch: 85%; font-weight: 800; font-size: 28px; line-height: 1.1; margin: 0 0 6px; color: var(--ink); }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+  .picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .picker button {
+    font: 600 15px "Public Sans", Arial, sans-serif; cursor: pointer;
+    background: var(--card); color: var(--purple); border: 2px solid var(--purple);
+    border-radius: 999px; padding: 9px 16px; min-height: 44px;
+  }
+  :root[data-theme="dark"] .picker button, :root:not([data-theme="light"]) .picker button { }
+  .picker button[aria-pressed="true"] { background: var(--purple); color: #fff; }
+  .picker button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .picker button { color: #D9C8F0; border-color: #8C63C2; } :root:not([data-theme="light"]) .picker button[aria-pressed="true"] { background: #6E3AA7; color: #fff; } }
+  :root[data-theme="dark"] .picker button { color: #D9C8F0; border-color: #8C63C2; }
+  :root[data-theme="dark"] .picker button[aria-pressed="true"] { background: #6E3AA7; color: #fff; }
+
+  /* ---------- Result panel ---------- */
+  .panel { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--card); }
+  .panel-head { background: var(--purple-soft); padding: 22px 22px 18px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+  .panel-head h3 { font-family: "Archivo", Arial, sans-serif; font-stretch: 85%; font-weight: 800; font-size: 26px; margin: 0 0 4px; }
+  .panel-head p { margin: 0; color: var(--muted); }
+  .bignum { text-align: center; min-width: 120px; }
+  .bignum .n { font-family: "Archivo", Arial, sans-serif; font-stretch: 75%; font-weight: 900; font-size: 56px; line-height: 1; color: var(--purple); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bignum .n { color: var(--gold); } }
+  :root[data-theme="dark"] .bignum .n { color: var(--gold); }
+  .bignum .l { font-size: 13px; color: var(--muted); line-height: 1.25; }
+
+  .meter { padding: 18px 22px 6px; }
+  .meter-bar { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--line); }
+  .meter-bar .have { background: var(--gold); transition: width .5s ease; }
+  .meter-bar .left { background: var(--purple); opacity: .85; transition: width .5s ease; }
+  .meter-key { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .dot { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .col { padding: 18px 22px 22px; }
+  .col + .col { border-left: 1px solid var(--line); }
+  .col h4 { margin: 0 0 10px; font-size: 16px; color: var(--ink); }
+  ul.courses { list-style: none; margin: 0; padding: 0; }
+  ul.courses li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+  ul.courses li:last-child { border-bottom: 0; }
+  .tick, .todo { flex: 0 0 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; margin-top: 1px; }
+  .tick { background: var(--gold); color: var(--purple-deep); }
+  .todo { border: 2px solid var(--purple); color: var(--purple); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .todo { border-color: #B79BE0; color: #B79BE0; } }
+  :root[data-theme="dark"] .todo { border-color: #B79BE0; color: #B79BE0; }
+  .cname { font-weight: 600; }
+  .cmeta { display: block; font-size: 13.5px; color: var(--muted); }
+
+  .why { padding: 18px 22px 22px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .why h4 { margin: 0 0 8px; font-size: 16px; }
+  .why p { margin: 0 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { background: var(--gold-soft); color: var(--gold-deep); border: 1px solid var(--gold); border-radius: 8px; padding: 4px 10px; font-size: 14px; font-weight: 600; }
+  .note { margin: 0; padding: 14px 22px; background: var(--gold-soft); color: var(--ink); font-size: 14.5px; border-top: 1px solid var(--line); }
+
+  /* ---------- Course reference ---------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--purple); color: #fff; font-weight: 700; }
+  tr:last-child td { border-bottom: 0; }
+  tr.fast td { background: var(--gold-soft); }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--purple-deep); background: var(--gold); border-radius: 6px; padding: 1px 7px; margin-left: 6px; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stat { border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: var(--card); }
+  .stat .n { font-family: "Archivo", Arial, sans-serif; font-stretch: 80%; font-weight: 900; font-size: 40px; color: var(--purple); line-height: 1; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .stat .n { color: var(--gold); } }
+  :root[data-theme="dark"] .stat .n { color: var(--gold); }
+  .stat p { margin: 6px 0 0; font-size: 14.5px; color: var(--muted); }
+
+  footer { background: var(--purple-deep); color: #EDE4F7; padding: 26px 0 30px; margin-top: 18px; font-size: 15.5px; }
+  footer a { color: var(--gold); }
+  footer .small { font-size: 13px; color: #CBBDE0; margin-top: 12px; }
+
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .panel-head { grid-template-columns: 1fr; }
+    .bignum { text-align: left; display: flex; align-items: baseline; gap: 10px; }
+    .cols, .why { grid-template-columns: 1fr; }
+    .col + .col { border-left: 0; border-top: 1px solid var(--line); }
+    .stats { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) { .meter-bar .have, .meter-bar .left { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="art" viewBox="0 0 400 400" aria-hidden="true">
+    <g fill="none" stroke="#CBB677" stroke-width="1.2">
+      <ellipse cx="200" cy="200" rx="180" ry="120"/><ellipse cx="200" cy="200" rx="140" ry="92"/>
+      <ellipse cx="200" cy="200" rx="100" ry="64"/><ellipse cx="200" cy="200" rx="60" ry="38"/>
+      <ellipse cx="200" cy="200" rx="24" ry="15"/>
+    </g>
+    <polyline points="40,330 92,268 128,252 150,224 172,214 186,205 196,201 200,200" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#CBB677"><circle cx="40" cy="330" r="6"/><circle cx="92" cy="268" r="5"/><circle cx="128" cy="252" r="5"/><circle cx="150" cy="224" r="4"/><circle cx="172" cy="214" r="4"/><circle cx="200" cy="200" r="8"/></g>
+  </svg>
+  <div class="wrap" style="position:relative">
+    <p class="kicker">JMU Department of Mathematics and Statistics</p>
+    <h1>Your fastest path to the Computational Analytics minor</h1>
+    <p class="lede">Pick your major. See what you already have, what's left, and where it can take you.</p>
+    <div class="facts">
+      <span class="fact"><b>18–20</b> credits total</span>
+      <span class="fact">Open to <b>all</b> majors</span>
+      <span class="fact">Core courses offered <b>every semester</b></span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>Choose your major</h2>
+      <p class="sub">Credit estimates assume the standard path for your major. Your advisor can confirm exactly how courses count for you.</p>
+      <div class="picker" role="group" aria-label="Choose your major" id="picker"></div>
+
+      <div class="panel" id="panel" aria-live="polite">
+        <div class="panel-head">
+          <div>
+            <h3 id="m-name"></h3>
+            <p id="m-hook"></p>
+          </div>
+          <div class="bignum"><div class="n" id="m-credits"></div><div class="l">credits beyond<br>your major</div></div>
+        </div>
+        <div class="meter">
+          <div class="meter-bar" role="img" id="m-meter-label"><div class="have" id="m-have-bar"></div><div class="left" id="m-left-bar"></div></div>
+          <div class="meter-key"><span><span class="dot" style="background:var(--gold)"></span>Covered by your major</span><span><span class="dot" style="background:var(--purple)"></span>Still to take</span></div>
+        </div>
+        <div class="cols">
+          <div class="col"><h4>You probably already have</h4><ul class="courses" id="m-have"></ul></div>
+          <div class="col"><h4>Still to take</h4><ul class="courses" id="m-left"></ul></div>
+        </div>
+        <div class="why">
+          <div><h4>Best electives for you</h4><p id="m-electives"></p></div>
+          <div><h4>Where it can take you</h4><div class="chips" id="m-careers"></div></div>
+        </div>
+        <p class="note" id="m-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Why it pays off</h2>
+      <p class="sub">Operations research analysts use optimization, modeling, and numerical methods, exactly what this minor teaches.</p>
+      <div class="stats">
+        <div class="stat"><div class="n">21%</div><p>Projected job growth for operations research analysts, 2024–34, much faster than average.</p></div>
+        <div class="stat"><div class="n">$91K</div><p>Median pay for operations research analysts, May 2024.</p></div>
+        <div class="stat"><div class="n">2</div><p>Electives to finish once Calculus I–II and MATH 248 are done.</p></div>
+      </div>
+      <p class="sub" style="margin-top:10px;font-size:13.5px">Source: U.S. Bureau of Labor Statistics, Occupational Outlook Handbook, Operations Research Analysts.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>All the courses</h2>
+      <p class="sub">Take the three required courses, then any two electives. The fastest finish is MATH 340 + MATH 448, since both need only MATH 248.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Course</th><th>Offered</th><th>Prerequisites</th></tr></thead>
+          <tbody id="course-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Questions or ready to declare?</strong><br>
+    Dr. Debra Warne, Coordinator &nbsp;|&nbsp; <a href="mailto:warneda@jmu.edu">warneda@jmu.edu</a> &nbsp;|&nbsp; 107 Roop Hall<br>
+    <a href="https://catalog.jmu.edu/programs/computational-analytics-minor/">Official catalog requirements</a>
+    <p class="small">Planning information for AY 2026–27. Course offerings and requirements can change; the JMU Undergraduate Catalog is the official source. Credit estimates are a guide; confirm with your advisor how courses count toward your major, other minors, and this minor.</p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   COURSE FACTS (edit here)
+   ============================================================ */
+const COURSES = {
+  calc1: { code: "MATH 235", name: "Calculus I", cr: 4, meta: "or MATH 231–232" },
+  calc2: { code: "MATH 236", name: "Calculus II", cr: 4, meta: "offered every semester" },
+  m248:  { code: "MATH 248", name: "Computers and Numerical Algorithms", cr: 4, meta: "offered every semester" },
+  elec:  { code: "Two electives", name: "from the list below", cr: 6, meta: "3 credits each" }
+};
+const ELECTIVES = [
+  { code: "MATH 340", name: "Operations Research I", term: "Spring", pre: "MATH 248", fast: true },
+  { code: "MATH/CS 448", name: "Numerical Analysis", term: "Fall", pre: "MATH 248", fast: true },
+  { code: "MATH 440", name: "Fourier Analysis & PDEs", term: "Fall", pre: "MATH 238 or 336" },
+  { code: "MATH/CS 449", name: "Numerical Analysis for Differential Equations", term: "Spring", pre: "(MATH 238 or 336) + MATH 237 + MATH 248" },
+  { code: "MATH 485", name: "Special topic: Modern Optimization Algorithms", term: "Fall 2026", pre: "(MATH 238 or 300) + MATH 248" },
+  { code: "MATH 485", name: "Special topic: Essential Math for 3D Modeling, Animation, and Gaming", term: "Spring 2027", pre: "(MATH 238 or 300) + MATH 237 + MATH 248" }
+];
+const TOTAL = 18; // using MATH 235 (4) + 236 (4) + 248 (4) + 6 elective credits
+
+/* ============================================================
+   MAJORS (edit here)
+   have:  course keys the major already requires
+   left:  course keys still needed for the minor
+   extra: text shown in the big number
+   ============================================================ */
+const MAJORS = [
+  { id: "cs", name: "Computer Science",
+    hook: "You can already code. Learn the math that makes algorithms fast, accurate, and intelligent.",
+    have: ["calc1"], left: ["calc2", "m248", "elec"], extra: "≈14",
+    electives: "MATH/CS 448 Numerical Analysis and MATH/CS 449 are cross-listed with CS. MATH 340 Operations Research and the 3D modeling, animation, and gaming topic are great fits too.",
+    careers: ["Machine learning engineer", "Simulation software developer", "Graphics and game engine developer", "Quant developer", "Government computer scientist"],
+    note: "JMU's CS catalog already recommends Calculus I–II (MATH 235–236) for students heading toward government computer science careers. Ask your CS advisor whether the cross-listed MATH/CS 448 and 449 can also count toward your CS electives." },
+  { id: "phys", name: "Physics",
+    hook: "Most real physics can't be solved by hand. Learn to solve it numerically.",
+    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "≈10",
+    electives: "MATH/CS 449 Numerical Analysis for Differential Equations and MATH 440 Fourier Analysis & PDEs match the physics you already study; your math sequence covers most of their prerequisites.",
+    careers: ["Computational physicist", "Defense and national lab analyst", "Aerospace modeling", "Data scientist"],
+    note: "Physics majors take MATH 235–237. If you've taken MATH 238 or 336, every elective is open to you." },
+  { id: "engr", name: "Engineering",
+    hook: "Engineers who can simulate and optimize designs before building them are in demand.",
+    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "≈10",
+    electives: "Your MATH 235–238 sequence unlocks every elective. MATH/CS 449 (numerical differential equations), MATH 440 (PDEs), and MATH 340 (operations research) are natural fits.",
+    careers: ["Simulation and CAE engineer", "Systems engineer", "Operations research analyst", "Defense and aerospace engineer"],
+    note: "Engineering already requires MATH 235, 236, 237, and 238, so you meet the prerequisites for every elective." },
+  { id: "stat", name: "Statistics",
+    hook: "Pair statistical thinking with optimization and numerical computing.",
+    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "6–10",
+    electives: "MATH 340 Operations Research and the Modern Optimization Algorithms topic (your MATH 300 meets its prerequisite) pair well with statistics.",
+    careers: ["Data scientist", "Machine learning analyst", "Operations research analyst", "Actuarial and risk analyst"],
+    note: "The catalog lets statistics majors double count the minor's required courses toward the major, so the minor can be as little as two electives beyond your degree." },
+  { id: "isat", name: "ISAT",
+    hook: "Add serious modeling and optimization power to your systems-and-technology toolkit.",
+    have: [], left: ["calc1", "calc2", "m248", "elec"], extra: "14–18",
+    electives: "MATH 340 Operations Research and MATH/CS 448 Numerical Analysis are the fastest pair: both need only MATH 248.",
+    careers: ["Energy systems modeler", "Production and logistics optimization", "Cyber and network analytics", "Operations research analyst"],
+    note: "ISAT math requirements vary by path. If MATH 235 fits your ISAT plan, it counts toward the minor too. Ask your ISAT advisor which calculus option works best for you." },
+  { id: "econ", name: "Economics",
+    hook: "Optimization is the language of economics. Learn to compute it, not just describe it.",
+    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "≈10",
+    electives: "MATH 340 Operations Research (optimization and linear programming) and MATH/CS 448 Numerical Analysis.",
+    careers: ["Economic consultant", "Pricing and revenue analyst", "Policy modeling analyst", "Operations research analyst"],
+    note: "This estimate assumes you take MATH 235 for your calculus requirement and MATH 236, which the ECON checklist allows in place of ECON 284. Check with your ECON advisor." },
+  { id: "qfin", name: "Quantitative Finance",
+    hook: "You're already almost there. Two electives could finish the minor.",
+    have: ["calc1", "calc2", "m248"], left: ["elec"], extra: "6",
+    electives: "With MATH 235–238 and 248 done, every elective is open. MATH/CS 448 Numerical Analysis and MATH 340 Operations Research are favorites for quantitative finance.",
+    careers: ["Quantitative analyst", "Risk modeling", "Financial engineer", "Algorithmic trading"],
+    note: "Quantitative Finance already requires MATH 235, 236, 237, 238, and 248. Because QFIN also requires a math minor (or math double major), ask your advisor how the double-counting rules apply to your plan." },
+  { id: "bus", name: "Business & CIS",
+    hook: "Analytics-ready business graduates who can build models stand out.",
+    have: [], left: ["calc1", "calc2", "m248", "elec"], extra: "14–18",
+    electives: "MATH 340 Operations Research (supply chains, scheduling, logistics) and MATH/CS 448 Numerical Analysis.",
+    careers: ["Business analytics", "Supply chain optimization", "Operations research analyst", "Consulting"],
+    note: "If you choose MATH 235 instead of MATH 205 for your calculus requirement, it counts toward both your major and the minor." },
+  { id: "math", name: "Mathematics",
+    hook: "Add an applied, job-ready credential to your math degree.",
+    have: ["calc1", "calc2"], left: ["m248", "elec"], extra: "6–10",
+    electives: "Every elective is open after your core. Choose by interest: optimization (MATH 340), numerical analysis (448, 449), PDEs (440), or the special topics.",
+    careers: ["Operations research analyst", "Data scientist", "Modeling and simulation analyst", "Graduate school in applied math"],
+    note: "Courses used for the minor can't also count toward the extra 12 credits beyond the math major core. See the catalog for details." }
+];
+
+/* ============================================================
+   RENDERING (no editing needed below)
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const li = (c, done) => `<li><span class="${done ? "tick" : "todo"}" aria-hidden="true">${done ? "✓" : ""}</span><span><span class="cname">${c.code} ${c.name}</span><span class="cmeta">${c.cr} credits${c.meta ? ", " + c.meta : ""}</span></span></li>`;
+
+function show(id) {
+  const m = MAJORS.find(x => x.id === id) || MAJORS[0];
+  document.querySelectorAll("#picker button").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === m.id ? "true" : "false"));
+  $("m-name").textContent = m.name;
+  $("m-hook").textContent = m.hook;
+  $("m-credits").textContent = m.extra;
+  $("m-have").innerHTML = m.have.length ? m.have.map(k => li(COURSES[k], true)).join("") : `<li><span class="todo" aria-hidden="true"></span><span><span class="cname">Depends on your path</span><span class="cmeta">See the note below</span></span></li>`;
+  $("m-left").innerHTML = m.left.map(k => li(COURSES[k], false)).join("");
+  const haveCr = m.have.reduce((s, k) => s + COURSES[k].cr, 0);
+  $("m-have-bar").style.width = (100 * haveCr / TOTAL) + "%";
+  $("m-left-bar").style.width = (100 * (TOTAL - haveCr) / TOTAL) + "%";
+  $("m-meter-label").setAttribute("aria-label", `About ${haveCr} of ${TOTAL} minor credits are covered by your major`);
+  $("m-electives").textContent = m.electives;
+  $("m-careers").innerHTML = m.careers.map(c => `<span class="chip">${c}</span>`).join("");
+  $("m-note").textContent = m.note;
+  try { history.replaceState(null, "", "#" + m.id); } catch (e) {}
+}
+
+$("picker").innerHTML = MAJORS.map(m => `<button type="button" data-id="${m.id}" aria-pressed="false">${m.name}</button>`).join("");
+$("picker").addEventListener("click", e => { const b = e.target.closest("button"); if (b) show(b.dataset.id); });
+
+$("course-table").innerHTML = [
+  `<tr><td><b>MATH 235</b> Calculus I (or 231–232) <span class="tag">Required</span></td><td>Every semester</td><td>Placement</td></tr>`,
+  `<tr><td><b>MATH 236</b> Calculus II <span class="tag">Required</span></td><td>Every semester</td><td>MATH 235 or 232</td></tr>`,
+  `<tr><td><b>MATH 248</b> Computers and Numerical Algorithms <span class="tag">Required</span></td><td>Every semester</td><td>MATH 236</td></tr>`,
+  ...ELECTIVES.map(e => `<tr class="${e.fast ? "fast" : ""}"><td><b>${e.code}</b> ${e.name}${e.fast ? ' <span class="tag">Fastest path</span>' : ""}</td><td>${e.term}</td><td>${e.pre}</td></tr>`)
+].join("");
+
+show((location.hash || "").replace("#", "") || "cs");
+</script>
+</body>
+</html>
